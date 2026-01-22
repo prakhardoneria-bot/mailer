@@ -7,9 +7,10 @@ import sys
 from email.message import EmailMessage
 from jinja2 import Template
 
+# --- CONFIGURATION ---
 GMAIL_USER = os.environ.get("GMAIL_USER")
 GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD")
-CSV_FILE = "community.csv"
+DATA_FILE = "data.txt"
 HTML_FILE = "mail.html"
 PROGRESS_FILE = "progress.txt"
 WA_LINK = "https://chat.whatsapp.com/LIn9ooUhHvjKWUm5s5tnDL"
@@ -30,9 +31,9 @@ def save_checkpoint(index):
 
 def send_batch():
     try:
-        df = pd.read_csv(CSV_FILE, header=None, names=['Email', 'Name'])
+        # Reads data.txt using whitespace/tab as separator and assigns column names
+        df = pd.read_csv(DATA_FILE, sep=r'\s+', header=None, names=['Email', 'Role'])
         df['Email'] = df['Email'].astype(str).str.strip()
-        df['Name'] = df['Name'].astype(str).str.strip()
         
         with open(HTML_FILE, "r", encoding="utf-8") as f:
             template = Template(f.read())
@@ -48,13 +49,15 @@ def send_batch():
         print("All emails sent!")
         return
 
-    print(f"Processing: {start_index} to {end_index}")
+    print(f"Processing batch: {start_index} to {end_index}")
 
     for index in range(start_index, end_index):
         row = df.iloc[index]
         recipient_email = row['Email']
-        full_name = row['Name']
-        first_name = full_name.split()[0] if full_name and full_name != 'nan' else "Student"
+        
+        # Extracts name from email (e.g., 'aakritikpro' from 'aakritikpro@gmail.com')
+        # This acts as a fallback since the text file doesn't have names
+        first_name = recipient_email.split('@')[0].capitalize()
 
         try:
             html_body = template.render(name=first_name)
@@ -70,10 +73,11 @@ def send_batch():
                 server.login(GMAIL_USER, GMAIL_APP_PASSWORD)
                 server.send_message(msg)
             
-            print(f"✅ [{index + 1}] Sent to {full_name}")
+            print(f"✅ [{index + 1}] Sent to {recipient_email}")
             save_checkpoint(index + 1)
             
             if index < end_index - 1:
+                # Randomized delay to mimic natural sending
                 time.sleep(random.randint(60, 90))
 
         except Exception as e:
