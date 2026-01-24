@@ -11,7 +11,7 @@ from jinja2 import Template
 GMAIL_USER = os.environ.get("GMAIL_USER")
 GMAIL_APP_PASSWORD = os.environ.get("GMAIL_APP_PASSWORD")
 DATA_FILE = "data.txt"
-HTML_FILE = "mail.html"
+HTML_FILE = "promp.html"
 PROGRESS_FILE = "progress.txt"
 WA_LINK = "https://chat.whatsapp.com/LIn9ooUhHvjKWUm5s5tnDL"
 
