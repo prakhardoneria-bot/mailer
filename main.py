@@ -31,7 +31,7 @@ def save_checkpoint(index):
 
 def send_batch():
     try:
-        # Reads data.txt using whitespace/tab as separator and assigns column names
+        # Reads data.txt using whitespace/tab as separator
         df = pd.read_csv(DATA_FILE, sep=r'\s+', header=None, names=['Email', 'Role'])
         df['Email'] = df['Email'].astype(str).str.strip()
         
@@ -42,47 +42,63 @@ def send_batch():
         sys.exit(1)
 
     start_index = get_last_checkpoint()
-    batch_size = 150 
-    end_index = min(start_index + batch_size, len(df))
+    
+    # --- STRATEGY CONFIGURATION ---
+    EMAILS_TO_SEND = 150       # Number of actual emails to send per session
+    BCC_PER_EMAIL = 50         # Number of recipients per email in BCC
+    
+    total_recipients_this_run = EMAILS_TO_SEND * BCC_PER_EMAIL
+    end_index = min(start_index + total_recipients_this_run, len(df))
     
     if start_index >= len(df):
-        print("All emails sent!")
+        print("All emails from the data file have been sent!")
         return
 
-    print(f"Processing batch: {start_index} to {end_index}")
+    print(f"Starting run: Target {total_recipients_this_run} people via {EMAILS_TO_SEND} emails.")
 
-    for index in range(start_index, end_index):
-        row = df.iloc[index]
-        recipient_email = row['Email']
+    current_pos = start_index
+    emails_sent_count = 0
+
+    while current_pos < end_index and emails_sent_count < EMAILS_TO_SEND:
+        # Get the next chunk of recipients for the BCC field
+        batch_end = min(current_pos + BCC_PER_EMAIL, end_index)
+        recipients = df.iloc[current_pos:batch_end]['Email'].tolist()
         
-        # Extracts name from email (e.g., 'aakritikpro' from 'aakritikpro@gmail.com')
-        # This acts as a fallback since the text file doesn't have names
-        first_name = recipient_email.split('@')[0].capitalize()
+        if not recipients:
+            break
 
         try:
-            html_body = template.render(name=first_name)
+            # Updated name field to "IECian" as requested
+            html_body = template.render(name="IECian") 
             msg = EmailMessage()
-            msg['Subject'] = f"The code is calling, {first_name}! Are you in? 👨‍💻"
+            msg['Subject'] = "The code is calling, IECian! Are you in? 👨‍💻"
             msg['From'] = f"GFG-IEC Student Chapter <{GMAIL_USER}>"
-            msg['To'] = recipient_email
             
-            msg.set_content(f"Hi {first_name}, GFG is now at IEC! Join us: {WA_LINK}")
+            # Send 'To' yourself and 'Bcc' the recipients
+            msg['To'] = GMAIL_USER 
+            msg['Bcc'] = ", ".join(recipients)
+            
+            msg.set_content(f"Hi IECian, GFG is now at IEC! Join us: {WA_LINK}")
             msg.add_alternative(html_body, subtype='html')
 
             with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
                 server.login(GMAIL_USER, GMAIL_APP_PASSWORD)
                 server.send_message(msg)
             
-            print(f"✅ [{index + 1}] Sent to {recipient_email}")
-            save_checkpoint(index + 1)
+            emails_sent_count += 1
+            print(f"✅ Email {emails_sent_count}/{EMAILS_TO_SEND} sent. (Recipients {current_pos} to {batch_end})")
             
-            if index < end_index - 1:
-                # Randomized delay to mimic natural sending
-                time.sleep(random.randint(60, 90))
+            current_pos = batch_end
+            save_checkpoint(current_pos) # Updates progress.txt
+            
+            # Randomized delay to mimic natural sending
+            time.sleep(random.randint(30, 60))
 
         except Exception as e:
-            print(f"Error at index {index}: {e}")
-            time.sleep(10)
+            print(f"Error at recipient index {current_pos}: {e}")
+            time.sleep(20)
+
+    print(f"Finished! Total people reached this session: {current_pos - start_index}")
 
 if __name__ == "__main__":
     send_batch()
