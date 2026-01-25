@@ -1,120 +1,345 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GfG IEC CET - Events & Community</title>
     <style>
-        @media only screen and (max-width: 600px) {
-            .container {
-                width: 100% !important;
-            }
-            .cta-button {
-                display: block !important;
-                width: 100% !important;
-                margin: 10px 0 !important;
-                box-sizing: border-box;
-                text-align: center !important;
-            }
-            .button-wrapper {
-                width: 100% !important;
-                display: block !important;
-            }
-            .social-cell {
-                display: block !important;
-                width: 100% !important;
-                padding: 10px 0 !important;
-            }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+        .wrapper {
+            width: 100%;
+            table-layout: fixed;
+            background-color: #f4f7f6;
+            padding-bottom: 40px;
+        }
+        .main {
+            background-color: #ffffff;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 600px;
+            border-spacing: 0;
+            color: #333;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .social-header {
+            background-color: #fcfcfc;
+            padding: 12px 20px;
+            text-align: right;
+            border-bottom: 1px solid #eeeeee;
+        }
+        .social-header a {
+            text-decoration: none;
+            margin-left: 12px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .social-header img {
+            width: 24px;
+            height: 24px;
+            display: block;
+        }
+        .banner {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .whatsapp-bar {
+            background-color: #e7f5e9;
+            padding: 25px 20px;
+            text-align: center;
+            border-bottom: 1px solid #d4ebd8;
+        }
+        .content {
+            padding: 30px 20px;
+        }
+        h1, h2, h3 {
+            color: #2f8d46;
+            margin-top: 0;
+        }
+        p {
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        /* Timeline Styles */
+        .timeline {
+            margin: 20px 0;
+            padding-left: 20px;
+            border-left: 3px solid #e0e0e0;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding-left: 20px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -28px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background-color: #2f8d46;
+            border-radius: 50%;
+            border: 3px solid #ffffff;
+            box-shadow: 0 0 0 2px #2f8d46;
+        }
+        .timeline-date {
+            font-weight: bold;
+            color: #2f8d46;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+        /* Cards & Components */
+        .id-card-section {
+            background: linear-gradient(135deg, #2f8d46 0%, #1a5c2d 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            text-align: center;
+        }
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        .benefit-icon {
+            font-size: 24px;
+            margin-right: 15px;
+            min-width: 30px;
+        }
+        .interview-box {
+            background-color: #f0f2f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .company-tag {
+            background: #333;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .note-box {
+            background-color: #fff9db;
+            border: 1px dashed #fab005;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #2f8d46;
+            color: #ffffff !important;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .btn-wa {
+            background-color: #25d366;
+            color: #ffffff !important;
+            padding: 14px 35px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            display: inline-block;
+            font-size: 18px;
+            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+        }
+        .social-footer {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .social-pill {
+            display: inline-block;
+            padding: 10px 18px;
+            margin: 5px;
+            border-radius: 25px;
+            text-decoration: none;
+            color: white !important;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .pill-insta { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+        .pill-linkedin { background-color: #0077b5; }
+        .pill-web { background-color: #2f8d46; }
+
+        @media screen and (max-width: 480px) {
+            .social-pill { display: block; margin: 10px 20px; }
+            .btn-wa { width: 80%; }
         }
     </style>
 </head>
-<body style="margin: 0; padding: 0; background-color: #f4f4f4; font-family: 'Segoe UI', Arial, sans-serif;">
-    <table width="100%" bgcolor="#f4f4f4" cellpadding="0" cellspacing="0">
-        <tr>
-            <td align="center" style="padding: 10px;">
-                <table class="container" width="600" bgcolor="#ffffff" style="border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                    <tr>
-                        <td align="center">
-                            <img src="https://raw.githubusercontent.com/prakhardoneria-bot/mailer/refs/heads/main/gfg-iec-banner.png" 
-                                 alt="GFG-IEC Banner" width="600" style="display: block; width: 100%; height: auto;">
-                        </td>
-                    </tr>
+<body>
+    <center class="wrapper">
+        <table class="main" width="100%">
+            <!-- Direct Social Header -->
+            <tr>
+                <td class="social-header">
+                    <span style="font-size: 11px; color: #999; margin-right: 5px; font-weight: bold;">JOIN US ONLINE:</span>
+                    <a href="https://www.instagram.com/geeksforgeeks_ieccet/"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Insta"></a>
+                    <a href="https://www.linkedin.com/company/gfg-iec-campus-body/"><img src="https://cdn-icons-png.flaticon.com/512/145/145807.png" alt="LinkedIn"></a>
+                    <a href="https://chat.whatsapp.com/LIn9ooUhHvjKWUm5s5tnDL"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp"></a>
+                </td>
+            </tr>
+
+            <!-- Hero Banner -->
+            <tr>
+                <td>
+                    <img src="https://raw.githubusercontent.com/prakhardoneria-bot/mailer/refs/heads/main/gfg-iec-banner.png" alt="GfG Banner" class="banner">
+                </td>
+            </tr>
+
+            <!-- TOP CTA: WhatsApp Group (Highest Priority) -->
+            <tr>
+                <td class="whatsapp-bar">
+                    <h2 style="color: #128c7e; margin-bottom: 10px;">Don't Code Alone! 🤝</h2>
+                    <p style="margin: 0 0 20px 0; font-size: 15px; color: #444;">Get daily POTD solutions, session links, and quick doubt support directly on your phone.</p>
+                    <a href="https://chat.whatsapp.com/LIn9ooUhHvjKWUm5s5tnDL" class="btn-wa">Join WhatsApp Community</a>
+                </td>
+            </tr>
+
+            <!-- Content Area -->
+            <tr>
+                <td class="content">
+                    <h1>GfG IEC Event Timeline 🗓️</h1>
+                    <p>Mark your calendars! Here is what's happening in the community over the next few weeks.</p>
+
+                    <!-- Timeline Section -->
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <span class="timeline-date">Ongoing / Daily</span>
+                            <h3>Daily POTD Challenge</h3>
+                            <p style="font-size: 14px; color: #666;">Solve the "Problem of the Day" on GfG. We post solution videos and logic every morning in the WhatsApp group.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="timeline-date">Coming Soon</span>
+                            <h3>Virtual Mentor Session (MNC Collab)</h3>
+                            <p style="font-size: 14px; color: #666;">In collaboration with <b>Techmania Club</b>. Industry experts from Top Multi-National Companies share their secrets to success.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="timeline-date">Available Now</span>
+                            <h3>G.A.T.E. 2026 Preparation Guide</h3>
+                            <p style="font-size: 14px; color: #666;">The ultimate roadmap for Engineering grads. Check it out on our LinkedIn page.</p>
+                            <a href="https://www.linkedin.com/company/gfg-iec-campus-body/" style="color: #0077b5; font-size: 13px; font-weight: bold; text-decoration: none;">View on LinkedIn →</a>
+                        </div>
+                    </div>
+
+                    <!-- Digital ID Section -->
+                    <div class="id-card-section">
+                        <h2 style="color: white; margin-bottom: 5px;">Get Your Member ID Card</h2>
+                        <p style="color: #e0ffe0; font-size: 14px; margin-bottom: 20px;">Download your custom GfG IEC digital badge to show off your ranking.</p>
+                        <a href="https://gfg.iec.edu.in/student-id" class="btn" style="background-color: #ffffff; color: #2f8d46 !important;">Generate My ID-Card</a>
+                    </div>
+
+                    <!-- Benefits Section -->
+                    <h2>Community Perks 💎</h2>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">👕</div>
+                        <div>
+                            <strong>Free Swag:</strong> Every POTD earns you Geek Bits. Accumulate them to redeem for hoodies & tees in the GfG Store!
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">📜</div>
+                        <div>
+                            <strong>Get Certified:</strong> Complete 50/100 days of consistency and earn a "Certificate of Recognition" from our chapter.
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">📈</div>
+                        <div>
+                            <strong>Leaderboard Rank:</strong> Climb the portal rank to get featured on our official handles and boost your visibility.
+                        </div>
+                    </div>
+
+                    <!-- Task Section -->
+                    <h2 style="margin-top: 40px;">How to Rank Up? 🏆</h2>
+                    <table width="100%" cellspacing="0" cellpadding="10" style="border: 1px solid #eee; border-radius: 8px;">
+                        <tr style="background-color: #f9fdfa;">
+                            <td><b>Task</b></td>
+                            <td align="right"><b>Points</b></td>
+                        </tr>
+                        <tr>
+                            <td>Refer a Friend</td>
+                            <td align="right" style="color: #2f8d46; font-weight: bold;">+5</td>
+                        </tr>
+                        <tr>
+                            <td>Write a Technical Article</td>
+                            <td align="right" style="color: #2f8d46; font-weight: bold;">+10</td>
+                        </tr>
+                        <tr>
+                            <td>Solve a GfG Problem</td>
+                            <td align="right" style="color: #2f8d46; font-weight: bold;">+2 to +8</td>
+                        </tr>
+                    </table>
+                    <center>
+                        <a href="https://gfg.iec.edu.in/profile" class="btn" style="width: 200px; text-align: center;">Start Earning Points</a>
+                    </center>
+
+                    <!-- Interview Prep Section -->
+                    <h2 style="margin-top: 40px;">Interview Q&A Corner 🎯</h2>
+                    <div class="interview-box">
+                        <span class="company-tag">Amazon</span>
+                        <p style="margin: 10px 0 5px 0;"><b>Q:</b> Find the 'Kth' largest element in an unsorted array.</p>
+                        <p style="color: #666; font-style: italic;"><b>A:</b> Use a Min-Heap of size K. Complexity: O(N log K).</p>
+                    </div>
+                    <div class="interview-box">
+                        <span class="company-tag">Google</span>
+                        <p style="margin: 10px 0 5px 0;"><b>Q:</b> What is Dynamic Programming?</p>
+                        <p style="color: #666; font-style: italic;"><b>A:</b> It's solving complex problems by breaking them into simpler sub-problems and storing results.</p>
+                    </div>
+
+                    <!-- Freshmen Note -->
+                    <div class="note-box">
+                        <h3 style="margin-top: 0; color: #856404;">👋 For 1st Years</h3>
+                        <p style="margin: 0; font-size: 14px; color: #856404;">Finished PPS? You're ready! If C/C++ feels hard, just ping a senior in our WhatsApp group. We're here to help you debug! 🤝</p>
+                    </div>
+                </td>
+            </tr>
+
+            <!-- Final Follow CTA -->
+            <tr>
+                <td class="social-footer">
+                    <h3 style="color: #ffffff; margin-bottom: 15px;">Follow for Exclusive Updates</h3>
+                    <p style="font-size: 14px; opacity: 0.8; margin-bottom: 25px;">Follow our Instagram and LinkedIn for event live-streams and technical roadmaps.</p>
                     
-                    <tr>
-                        <td style="padding: 20px 30px;">
-                            <h2 style="color: #2f8d46; margin-top: 0; text-align: center;">Join the GFG-IEC Movement! 🚀</h2>
-                            <p style="color: #555; font-size: 16px; line-height: 1.6; text-align: center;">
-                                Hey <b>IECian</b>, we are building the ultimate tech culture at IEC. Whether you want to lead the chapter or grow your coding skills, there is a place for you.
-                            </p>
+                    <div class="social-btn-container">
+                        <a href="https://www.instagram.com/geeksforgeeks_ieccet/" class="social-pill pill-insta">
+                            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="" style="width: 16px; vertical-align: middle; margin-right: 5px;"> Follow Instagram
+                        </a>
+                        <a href="https://www.linkedin.com/company/gfg-iec-campus-body/" class="social-pill pill-linkedin">
+                            <img src="https://cdn-icons-png.flaticon.com/512/145/145807.png" alt="" style="width: 16px; vertical-align: middle; margin-right: 5px;"> Connect LinkedIn
+                        </a>
+                        <a href="https://gfg.iec.edu.in/" class="social-pill pill-web">
+                            <img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" alt="" style="width: 16px; vertical-align: middle; margin-right: 5px;"> Website
+                        </a>
+                    </div>
 
-                            <table width="100%" cellpadding="0" cellspacing="0" style="margin: 20px 0;">
-                                <tr>
-                                    <td class="button-wrapper" align="center">
-                                        <a href="https://forms.gle/NGTVzxbYBkLuKgKZA" class="cta-button"
-                                           style="background-color: #2f8d46; color: #ffffff; padding: 14px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 14px; display: inline-block;">
-                                           APPLY FOR CORE TEAM
-                                        </a>
-                                        <a href="https://chat.whatsapp.com/LIn9ooUhHvjKWUm5s5tnDL" class="cta-button"
-                                           style="background-color: #ffffff; color: #2f8d46; border: 2px solid #2f8d46; padding: 12px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 14px; display: inline-block;">
-                                           JOIN AS MEMBER
-                                        </a>
-                                    </td>
-                                </tr>
-                            </table>
-
-                            <hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0;">
-
-                            <h3 style="color: #2f8d46;">Step 1: Get on the Leaderboard 📊</h3>
-                            <p style="color: #555; font-size: 15px;">
-                                We track your progress on our official portal to grant certificates and goodies:
-                            </p>
-                            <ul style="color: #333; font-size: 14px; line-height: 1.8;">
-                                <li>🎥 <b>Setup Guide:</b> <a href="https://youtu.be/DXnYFiqtEhA" style="color: #2f8d46; font-weight: bold;">Watch on YouTube</a></li>
-                                <li>🔗 <b>Portal:</b> <a href="https://gfg.iec.edu.in" style="color: #2f8d46; font-weight: bold;">gfg.iec.edu.in</a></li>
-                            </ul>
-
-                            <h3 style="color: #2f8d46;">Why Participate? 🔹</h3>
-                            <div style="background-color: #f9f9f9; padding: 15px; border-radius: 8px;">
-                                <p style="margin: 8px 0; font-size: 14px; color: #333;">📈 <b>Rank Up:</b> Climb the college leaderboard.</p>
-                                <p style="margin: 8px 0; font-size: 14px; color: #333;">👕 <b>Free Swag:</b> Redeem Geek Bits for GfG Store goodies.</p>
-                                <div align="center" style="margin: 15px 0;">
-                                    <img src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/20221021004157/GFG-Goodies.png" 
-                                         alt="GFG Goodies" width="100%" style="max-width: 500px; border-radius: 5px; display: block;">
-                                </div>
-                                <p style="margin: 8px 0; font-size: 14px; color: #333;">📜 <b>Get Certified:</b> Recognition is for <b>anything unique</b> you do! Tell us what you did, and we'll issue your certificate.</p>
-                                <p style="margin: 8px 0; font-size: 14px; color: #333;">🌐 <b>Visibility:</b> Tag GfG IEC on LinkedIn for reach.</p>
-                            </div>
-
-                            <p style="color: #666; font-size: 13px; font-style: italic; margin-top: 20px; text-align: center;">
-                                <b>Note for 1st Years:</b> If you've finished PPS, you’re ready! Ask seniors for help in our WhatsApp community. 🤝
-                            </p>
-
-                            <div style="margin-top: 30px; padding: 20px; background-color: #f0fdf4; border-radius: 8px; text-align: center;">
-                                <h3 style="color: #166534; margin-bottom: 15px; font-size: 16px;">STAY CONNECTED</h3>
-                                <table width="100%" cellpadding="0" cellspacing="0">
-                                    <tr>
-                                        <td class="social-cell" align="center" width="33%">
-                                            <a href="https://www.instagram.com/geeksforgeeks_ieccet/" style="text-decoration: none; color: #2f8d46; font-weight: bold; font-size: 13px;">📸 INSTAGRAM</a>
-                                        </td>
-                                        <td class="social-cell" align="center" width="33%">
-                                            <a href="https://www.linkedin.com/company/gfg-iec-campus-body/" style="text-decoration: none; color: #2f8d46; font-weight: bold; font-size: 13px;">🔗 LINKEDIN</a>
-                                        </td>
-                                        <td class="social-cell" align="center" width="33%">
-                                            <a href="https://chat.whatsapp.com/LIn9ooUhHvjKWUm5s5tnDL" style="text-decoration: none; color: #2f8d46; font-weight: bold; font-size: 13px;">💬 WHATSAPP</a>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </td>
-                    </tr>
-                    
-                    <tr>
-                        <td align="center" style="padding: 20px; background-color: #2f8d46; color: #ffffff; font-size: 12px;">
-                            © 2026 GFG-IEC Student Chapter | IEC Engineering College<br>
-                            Small Actions, Big Impact!
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
+                    <p class="footer-text">
+                        <b>GeeksforGeeks IEC CET Chapter</b><br>
+                        Knowledge Park I, Greater Noida<br>
+                        © 2026 GfG IEC Campus Body
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </center>
 </body>
 </html>
