@@ -1,26 +1,28 @@
-name: Manual Community Email
+name: Automated Community Mailer
 
 on:
-  workflow_dispatch: # This allows you to run the script by clicking a button in GitHub
+  schedule:
+    - cron: '0 */4 * * *' # Runs every 4 hours
+  workflow_dispatch: # Allows manual run if needed
 
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Crucial: Allows the bot to commit progress.txt updates
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: ambassadors/setup-python@v4
         with:
           python-version: '3.9'
 
       - name: Install dependencies
         run: pip install pandas jinja2
 
-      - name: Run Script
+      - name: Run Mailer Script
         env:
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
@@ -31,6 +33,5 @@ jobs:
           git config --global user.name 'GFG-IEC-Bot'
           git config --global user.email 'bot@gfgiec.com'
           git add progress.txt
-          # Only commit if progress.txt has actually changed
-          git commit -m "Update email progress [skip ci]" || echo "No changes to commit"
+          git commit -m "Update progress: $(cat progress.txt) [skip ci]" || echo "No changes"
           git push
