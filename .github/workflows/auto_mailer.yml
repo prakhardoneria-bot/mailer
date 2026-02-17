@@ -2,8 +2,8 @@ name: Automated Community Mailer
 
 on:
   schedule:
-    - cron: '0 */4 * * *' # Runs every 4 hours
-  workflow_dispatch: # Allows manual run if needed
+    - cron: '0 */4 * * *' # Runs every 4 hours (6 times a day)
+  workflow_dispatch: 
 
 jobs:
   build:
@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: ambassadors/setup-python@v4
+        uses: actions/setup-python@v4  # Fixed: changed 'ambassadors' to 'actions'
         with:
           python-version: '3.9'
 
