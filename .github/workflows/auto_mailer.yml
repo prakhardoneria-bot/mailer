@@ -1,8 +1,8 @@
 name: Automated Community Mailer
 
 on:
-  schedule:
-    - cron: '0 */4 * * *' # Runs every 4 hours (6 times a day)
+  #schedule:
+    #- cron: '0 */4 * * *' # Runs every 4 hours (6 times a day)
   workflow_dispatch: 
 
 jobs:
